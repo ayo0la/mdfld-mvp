@@ -1,0 +1,154 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## 1. Code Quality & Standards
+
+* **TypeScript-First**: All code (frontend & backend) must be TypeScript with `strict` mode on.
+* **Lint & Format**: Enforce ESLint (Airbnb config) and Prettier on every commit via Husky pre-commit hooks.
+* **Naming Conventions**:
+
+  * Components & pages → `PascalCase` (e.g., `ListingCard.tsx`)
+  * Variables & functions → `camelCase` (e.g., `fetchListings`)
+  * Constants & enums → `UPPER_SNAKE_CASE`
+
+---
+
+## 2. Architecture & Folder Structure
+
+* **`/src` Root**
+
+  * `/components` → shared, reusable UI components (cards, buttons, forms)
+  * `/pages` → Next.js page routes (`/api` nested for API routes)
+  * `/lib` → external integrations (Amplify, Mongoose, Stripe, Captcha)
+  * `/hooks` → custom React hooks (e.g., `useAuth`, `use2FA`)
+  * `/styles` → Tailwind config, global CSS, design tokens
+  * `/tests` → Jest unit & Cypress E2E specs
+* **Feature Modules**: Group related pages, components, and tests by domain when a feature has >3 screens (e.g., `/features/listings`).
+
+---
+
+## 3. Theming & Design Tokens
+
+* **Single Source of Truth**: Define brand tokens in `tailwind.config.js` and export to any CSS-in-JS theme.
+* **Gordita Integration**: Load Gordita via `@fontsource/gordita` and use only `font-gordita` utility classes.
+* **shadcn/ui Overrides**: Create a `ThemeProvider` that injects your primary (#44CFCF), accent (#1E7D7D), and background (#2E2E2E) colors globally.
+* **Accessibility & Dark Mode**: Ensure all components meet WCAG 2.1 AA; include a system-toggleable dark mode variant.
+
+---
+
+## 4. API & Data Layer
+
+* **Next.js API Routes**: Keep route handlers thin—delegate business logic to `/lib` modules.
+* **Database Access**:
+
+  * Single `mongoose.connect(...)` call in `/lib/db.ts`.
+  * Export typed models (User, Listing, Order) and repository helpers.
+* **Validation**: Use `zod` schemas in each route to validate inputs before executing business logic.
+* **API Versioning**: Prefix routes with `/api/v1/...` for future evolution.
+
+---
+
+## 5. Security & Secrets
+
+* **Env Management**: All secrets in `.env.local`, referenced via `process.env`; never hard-code keys.
+* **IAM & CORS**:
+
+  * Amplify Auth/S3 IAM roles locked to least privilege.
+  * API routes enforce CORS to only your frontend origin.
+* **HTTP Security Headers & CSP**: Enforce HSTS, X-Frame-Options, XSS-Protection, and a strict Content Security Policy via server middleware or CDN.
+* **Input Sanitization**: Escape or strip any user-generated HTML/text before display to prevent XSS.
+* **Bot Protection & CAPTCHA**: Integrate CAPTCHA (e.g., Google reCAPTCHA v2/v3 or hCaptcha) on signup, login, listing creation, and checkout forms.
+* **Rate Limiting & Throttling**: Implement per-IP throttling, request quotas, and honeypot fields to block automated abuse.
+* **Multi-Factor Authentication**: Offer optional TOTP 2FA on sign-in for high-trust sellers.
+* **Audit Logging**: Record immutable logs for critical actions (login, listing edits, payments) stored in a tamper-evident store.
+* **Vulnerability Scanning**: Include OWASP ZAP or Snyk scans in CI pipeline; auto-fail on critical findings.
+* **Dependency Management**: Enable Dependabot (or equivalent) for automatic security updates.
+
+---
+
+## 6. Payments & Compliance
+
+* **Idempotency**: Use unique idempotency keys for Stripe sessions to avoid double charges.
+* **Error Handling**: Catch and surface payment errors gracefully; log full error details to Sentry.
+* **PCI-SAQ A**: No credit-card data passes through your servers—use Stripe & PayPal hosted flows exclusively.
+* **Audit Trails**: Record minimal payment metadata (timestamps, user IDs, order IDs) for compliance.
+
+---
+
+## 7. Testing & QA
+
+* **Unit Tests**: Achieve 80%+ coverage on `/lib` modules and critical UI components.
+* **E2E Tests**: Cypress suite covering: signup → 2FA → listing creation → feed browsing → checkout.
+* **Accessibility Tests**: Integrate axe-core in CI to enforce WCAG rules.
+* **Mocking**:
+
+  * `mongodb-memory-server` for database tests.
+  * Amplify Mock for Auth/Storage tests.
+* **CI Gate**: Fail builds if linting, tests, or type-checks fail.
+
+---
+
+## 8. Analytics & Monitoring
+
+* **Event Taxonomy**: Maintain a centralized file (`/lib/analytics.ts`) listing all event names & payload shapes.
+* **Instrumentation**: Inject tracking calls in `_app.tsx` and wrap page-level components.
+* **Real User Monitoring**: Integrate RUM (e.g., Datadog Browser, SpeedCurve) for performance metrics.
+* **Error Reporting**:
+
+  * Sentry initialized in both frontend and API routes.
+  * Uncaught exceptions auto-report with relevant context.
+
+---
+
+## 9. Performance & Scalability
+
+* **Image Optimization**: Use Next.js `<Image>` with a custom S3 loader for compression & lazy loading.
+* **Caching**:
+
+  * Feed API: leverage ISR or in-memory cache (Redis or Lambda Layer).
+  * Utilize MongoDB Atlas’s built-in caching for frequent reads.
+* **PWA Features**: Implement service workers for offline-first browsing and installability.
+* **Code Splitting**: Dynamically import heavy components (e.g., image carousel).
+
+---
+
+## 10. CI/CD & Release Process
+
+* **Branching Strategy**:
+
+  * `main` → production
+  * `develop` → staging
+  * Feature branches off `develop`
+* **Deploy Previews**: Amplify Console auto-deploys each PR for visual QA.
+* **Release Checklist**:
+
+  1. All tests & lint pass.
+  2. Performance audit via Lighthouse.
+  3. Accessibility audit via axe.
+  4. Security scan (OWASP/Snyk) cleared.
+  5. Design review for brand tokens & spacing.
+
+---
+
+## 11. Documentation & Onboarding
+
+* **README**: High-level overview, local setup, environment variables, and test commands.
+* **Contributing Guide**: Document branching, commit conventions, and release process.
+* **Code Comments**: Public functions & complex logic documented with TSDoc.
+* **Changelog**: Maintain `CHANGELOG.md` with semantic-versioned entries on each release.
+
+---
+
+## 12. Future-Proofing & Extensibility
+
+* **Feature Flags**: Integrate a lightweight flags system (e.g., LaunchDarkly or ConfigCat) so V2 AI badges can roll out incrementally.
+* **Modularization**: Encapsulate AI-verification logic behind a clear interface (`IVerifier`) for seamless V2 swap-in.
+* **Internationalization (i18n)**: Structure UI texts for localization support (e.g., next-i18next).
+* **API Versioning**: Prefix internal APIs with `/api/v1/...` to anticipate breaking changes.
+
+---
+
+*Version 1.2 | 06.10.2025*
+
