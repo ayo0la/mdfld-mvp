@@ -15,7 +15,7 @@ const Header: React.FC = () => {
         {/* Left Section: Logo and Web Search Bar (visible on md and up) */}
         <div className="text-xl font-bold flex items-center">
           <img src="/images/mdfld-logo.png" alt="mdfld logo" className="h-24 mr-2" /> {/* Placeholder for logo graphic */}
-          <div className="hidden md:block"><SearchBar /></div> {/* Web Search Bar, next to logo */}
+          <div className="hidden md:block"><SearchBar /></div>  {/* Web Search Bar, next to logo */}
         </div>
 
         {/* Mobile Search Bar (visible on mobile only, between logo and hamburger) */}
