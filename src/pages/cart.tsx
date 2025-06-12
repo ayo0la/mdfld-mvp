@@ -3,20 +3,20 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-const SignIn: React.FC = () => (
+const Cart: React.FC = () => (
   <>
     <Head>
-      <title>Sign In</title>
+      <title>Cart</title>
     </Head>
     <div className="min-h-screen bg-dark-2 text-white font-gordita">
       <Header />
       <main className="container mx-auto py-20 px-4 text-center">
-        <h1 className="text-5xl font-bold mb-4">Sign In Page</h1>
-        <p className="text-lg text-gray-400">Sign in to your account.</p>
+        <h1 className="text-5xl font-bold mb-4">Shopping Cart</h1>
+        <p className="text-lg text-gray-400">Your cart is currently empty.</p>
       </main>
       <Footer />
     </div>
   </>
 );
 
-export default SignIn; 
+export default Cart; 

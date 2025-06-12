@@ -1,7 +1,7 @@
 ---
 description: 
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 ## 1. Code Quality & Standards
 
@@ -25,7 +25,7 @@ alwaysApply: true
   * `/hooks` → custom React hooks (e.g., `useAuth`, `use2FA`)
   * `/styles` → Tailwind config, global CSS, design tokens
   * `/tests` → Jest unit & Cypress E2E specs
-* **Feature Modules**: Group related pages, components, and tests by domain when a feature has >3 screens (e.g., `/features/listings`).
+  * `/features` → **Feature Modules**: Group related pages, components, and tests by domain when a feature has >3 screens (e.g., `/features/listings`).
 
 ---
 
@@ -34,6 +34,7 @@ alwaysApply: true
 * **Single Source of Truth**: Define brand tokens in `tailwind.config.js` and export to any CSS-in-JS theme.
 * **Gordita Integration**: Load Gordita via `@fontsource/gordita` and use only `font-gordita` utility classes.
 * **shadcn/ui Overrides**: Create a `ThemeProvider` that injects your primary (#44CFCF), accent (#1E7D7D), and background (#2E2E2E) colors globally.
+* **shadcn/ui Consistency**: All shadcn/ui components must be imported from a centralized `ui` component re-export file (e.g., `components/ui/index.ts`) to ensure consistent styling and usage across the project. Custom components extending shadcn/ui should be placed in `components/ui/custom` and adhere to the same styling guidelines.
 * **Accessibility & Dark Mode**: Ensure all components meet WCAG 2.1 AA; include a system-toggleable dark mode variant.
 
 ---
@@ -108,7 +109,7 @@ alwaysApply: true
 * **Caching**:
 
   * Feed API: leverage ISR or in-memory cache (Redis or Lambda Layer).
-  * Utilize MongoDB Atlas’s built-in caching for frequent reads.
+  * Utilize MongoDB Atlas's built-in caching for frequent reads.
 * **PWA Features**: Implement service workers for offline-first browsing and installability.
 * **Code Splitting**: Dynamically import heavy components (e.g., image carousel).
 
