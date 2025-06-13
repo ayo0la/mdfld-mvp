@@ -5,6 +5,14 @@ const withTM = require('next-transpile-modules')([
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  async rewrites() {
+    return [
+      {
+        source: '/api/server/:path*',
+        destination: 'http://localhost:4000/api/:path*', // Proxy to backend
+      },
+    ];
+  },
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `fs` module
     if (!isServer) {

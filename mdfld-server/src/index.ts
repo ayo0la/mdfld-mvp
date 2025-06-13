@@ -13,16 +13,11 @@ const app = express();
 const server = http.createServer(app);
 
 const origins: Record<string, string[]> = {
-  DEV: ['http://localhost:5173'],
+  DEV: ['http://localhost:5173', 'http://localhost:3000'],
   PROD: [''],
 };
 const origin = origins[process.env.NODE_ENV as string] || origins.PROD;
 const PORT = process.env.PORT || 4000;
-
-// Initialize database and cron service
-(() => {
-  MongoDBClient.init();
-})();
 
 // Middleware
 app.use(cors({ origin, credentials: true }));
@@ -41,4 +36,10 @@ initializeSocket(server);
 // Start server
 server.listen(PORT, () => {
   logger.info(`Server started on port ${PORT}`);
+  // Initialize database and cron service (non-blocking)
+  try {
+    MongoDBClient.init();
+  } catch (err) {
+    logger.error('MongoDB init failed:', err);
+  }
 });

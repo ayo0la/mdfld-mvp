@@ -10,6 +10,11 @@
       "StackName": "amplify-mdfldmvp-dev-aa59a",
       "StackId": "arn:aws:cloudformation:us-east-1:156041442279:stack/amplify-mdfldmvp-dev-aa59a/220fa2b0-46cf-11f0-b92c-0afff86fcd1b",
       "AmplifyAppId": "d3kbuos6519u4e"
+    },
+    "categories": {
+      "auth": {
+        "mdfldmvpfaa738d8": {}
+      }
     }
   }
 }

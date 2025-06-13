@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import SearchBar from './ui/custom/SearchBar';
+import { useAuth } from '../hooks/useAuth';
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <header className="bg-dark-1 text-white overflow-visible">
@@ -14,7 +17,9 @@ const Header: React.FC = () => {
       <div className="container mx-auto flex justify-between items-center h-14 px-4">
         {/* Left Section: Logo and Web Search Bar (visible on md and up) */}
         <div className="text-xl font-bold flex items-center">
-          <img src="/images/mdfld-logo.png" alt="mdfld logo" className="h-24 mr-2" /> {/* Placeholder for logo graphic */}
+          <Link href="/">
+            <img src="/images/mdfld-logo.png" alt="mdfld logo" className="h-24 mr-2 cursor-pointer" />
+          </Link>
           <div className="hidden md:block"><SearchBar /></div>  {/* Web Search Bar, next to logo */}
         </div>
 
@@ -31,9 +36,9 @@ const Header: React.FC = () => {
 
         {/* Right Section: Icons for user, heart, cart - Hidden on small screens, shown on medium and larger */}
         <div className="flex items-center space-x-4">
-          <a href="/signin" className="hidden md:block hover:text-primary transition-colors">
+          <Link href={user ? "/account" : "/signin"} className="hidden md:block hover:text-primary transition-colors">
             <img src="/images/icon-user.svg" alt="User Icon" className="h-5 w-5" />
-          </a>
+          </Link>
           <a href="/wishlist" className="hidden md:block hover:text-primary transition-colors">
             <img src="/images/icon-heart.svg" alt="Heart Icon" className="h-5 w-5" />
           </a>
@@ -55,22 +60,10 @@ const Header: React.FC = () => {
                 <li><a href="/" className="block py-2 px-4 hover:bg-dark-2 transition-colors rounded">HOME</a></li>
                 <li><a href="/shop" className="block py-2 px-4 hover:bg-dark-2 transition-colors rounded">SHOP</a></li>
                 <li>
-                  <a href="/signin" className="flex items-center space-x-2 py-2 px-4 hover:bg-dark-2 transition-colors rounded">
+                  <Link href={user ? "/account" : "/signin"} className="flex items-center space-x-2 py-2 px-4 hover:bg-dark-2 transition-colors rounded">
                     <img src="/images/icon-user.svg" alt="User Icon" className="h-5 w-5" />
-                    <span>Sign in</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="/signup" className="flex items-center space-x-2 py-2 px-4 hover:bg-dark-2 transition-colors rounded">
-                    <img src="/images/icon-user.svg" alt="User Icon" className="h-5 w-5" />
-                    <span>Sign up</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="/account" className="flex items-center space-x-2 py-2 px-4 hover:bg-dark-2 transition-colors rounded">
-                    <img src="/images/icon-user.svg" alt="User Icon" className="h-5 w-5" />
-                    <span>Account Dashboard</span>
-                  </a>
+                    <span>Account</span>
+                  </Link>
                 </li>
                 <li>
                   <a href="/cart" className="flex items-center space-x-2 py-2 px-4 hover:bg-dark-2 transition-colors rounded">

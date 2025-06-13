@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ui/custom/ProductCard';
 
+interface Product {
+  id?: number;
+  imageUrl?: string;
+  name: string;
+  price: string | number;
+}
+
+interface ShopPageContentProps {
+  products?: Product[];
+}
+
 const allProducts = [
   {
     imageUrl: '/images/nike_phantom_elite.png', // Placeholder image path
@@ -97,20 +108,28 @@ const allProducts = [
 
 const PRODUCTS_PER_LOAD = 6; // Number of products to load at once
 
-const ShopPageContent: React.FC = () => {
+const ShopPageContent: React.FC<ShopPageContentProps> = ({ products }) => {
+  // Use backend products if provided, otherwise fallback to allProducts
+  const productList = (products && products.length > 0) ? products : allProducts;
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [loadedProducts, setLoadedProducts] = useState(allProducts.slice(0, PRODUCTS_PER_LOAD));
-  const [hasMore, setHasMore] = useState(true);
+  const [loadedProducts, setLoadedProducts] = useState(productList.slice(0, PRODUCTS_PER_LOAD));
+  const [hasMore, setHasMore] = useState(productList.length > PRODUCTS_PER_LOAD);
 
   const loadMoreProducts = () => {
     const currentLength = loadedProducts.length;
-    const nextProducts = allProducts.slice(currentLength, currentLength + PRODUCTS_PER_LOAD);
+    const nextProducts = productList.slice(currentLength, currentLength + PRODUCTS_PER_LOAD);
     if (nextProducts.length > 0) {
       setLoadedProducts((prevProducts) => [...prevProducts, ...nextProducts]);
     } else {
       setHasMore(false);
     }
   };
+
+  useEffect(() => {
+    setLoadedProducts(productList.slice(0, PRODUCTS_PER_LOAD));
+    setHasMore(productList.length > PRODUCTS_PER_LOAD);
+  }, [productList]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -125,7 +144,7 @@ const ShopPageContent: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasMore, loadedProducts]); // Add loadedProducts to dependencies
+  }, [hasMore, loadedProducts, productList]);
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-dark-2 text-white font-gordita">
@@ -182,9 +201,9 @@ const ShopPageContent: React.FC = () => {
         {loadedProducts.map((product, index) => (
           <ProductCard
             key={index}
-            imageUrl={product.imageUrl}
+            imageUrl={product.imageUrl || '/images/placeholder-avatar.png'}
             name={product.name}
-            price={product.price}
+            price={String(product.price)}
           />
         ))}
         {!hasMore && (

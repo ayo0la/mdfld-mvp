@@ -78,14 +78,14 @@ const Home: React.FC = () => {
               <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">GAME CHANGERS</h2>
               <p className="text-base md:text-lg text-center text-gray-400 mb-8">Best Of New Arrivals</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <ProductCard imageSrc="/images/product1.png" name="Adidas Football (ID7793)" price="$23.75" productId="product1" />
-                <ProductCard imageSrc="/images/product2.png" name="Adidas Unisex TF (ID3784)" price="$24.00" productId="product2" />
-                <ProductCard imageSrc="/images/product3.png" name="Adidas Unisex JSY (ID2996)" price="$27.65" productId="product3" />
-                <ProductCard imageSrc="/images/product4.png" name="Adidas Football (ID2457)" price="$43.00" productId="product4" />
-                <ProductCard imageSrc="/images/product5.png" name="Adidas Unisex FXG (ID654)" price="$17.90" productId="product5" />
-                <ProductCard imageSrc="/images/product6.png" name="Adidas M PL 22 Reg T (ID452)" price="$15.60" productId="product6" />
-                <ProductCard imageSrc="/images/product7.png" name="Adidas Unisex FXG (ID654)" price="$38.50" productId="product7" />
-                <ProductCard imageSrc="/images/product8.png" name="Adidas Men Q4 BKJT (ID542)" price="$20.70" productId="product8" />
+                <ProductCard imageUrl="/images/product1.png" name="Adidas Football (ID7793)" price="$23.75" />
+                <ProductCard imageUrl="/images/product2.png" name="Adidas Unisex TF (ID3784)" price="$24.00" />
+                <ProductCard imageUrl="/images/product3.png" name="Adidas Unisex JSY (ID2996)" price="$27.65" />
+                <ProductCard imageUrl="/images/product4.png" name="Adidas Football (ID2457)" price="$43.00" />
+                <ProductCard imageUrl="/images/product5.png" name="Adidas Unisex FXG (ID654)" price="$17.90" />
+                <ProductCard imageUrl="/images/product6.png" name="Adidas M PL 22 Reg T (ID452)" price="$15.60" />
+                <ProductCard imageUrl="/images/product7.png" name="Adidas Unisex FXG (ID654)" price="$38.50" />
+                <ProductCard imageUrl="/images/product8.png" name="Adidas Men Q4 BKJT (ID542)" price="$20.70" />
               </div>
               <div className="text-center mt-12">
                 <button className="bg-primary text-gray-900 py-3 px-8 rounded-full font-bold hover:bg-opacity-90 transition-colors" onClick={() => window.location.href='/shop'}>
@@ -118,10 +118,10 @@ const Home: React.FC = () => {
               <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">THE LINEUP</h2>
               <p className="text-base md:text-lg text-center text-gray-400 mb-8">Explore everything football - organized for your game.</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <ProductCard imageSrc="/images/categories-boots-img.png" name="Shop Shoes" price="" productId="shoes" />
-                <ProductCard imageSrc="/images/categories-jerseys-img.png" name="Shop Kits" price="" productId="kits" />
-                <ProductCard imageSrc="/images/categories-balls-img.png" name="Shop Footballs" price="" productId="footballs" />
-                <ProductCard imageSrc="/images/categories-cards-img.png" name="Shop Cards" price="" productId="cards" />
+                <ProductCard imageUrl="/images/categories-boots-img.png" name="Shop Shoes" price="" />
+                <ProductCard imageUrl="/images/categories-jerseys-img.png" name="Shop Kits" price="" />
+                <ProductCard imageUrl="/images/categories-balls-img.png" name="Shop Footballs" price="" />
+                <ProductCard imageUrl="/images/categories-cards-img.png" name="Shop Cards" price="" />
               </div>
             </div>
           </section>
