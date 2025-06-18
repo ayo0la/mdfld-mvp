@@ -10,6 +10,8 @@ class AuthService extends UserService {
     const hash = await bcrypt.hash(userData.password, 10);
 
     const uploadedImageUrl = await S3Service.uploadFileS3(image);
+    // Parse roles string into array
+    const rolesArray = userData.roles ? userData.roles.split(',').map((r: string) => r.trim()) : ['buyer'];
     return Users.findOneAndUpdate(
       { email: userData.email },
       {
@@ -18,7 +20,7 @@ class AuthService extends UserService {
           last_name: userData.last_name,
           email: userData.email,
           password: hash,
-          role: userData.role,
+          roles: rolesArray,
           participants: [],
           image: uploadedImageUrl,
         },

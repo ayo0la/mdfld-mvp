@@ -5,7 +5,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { signUp } from 'aws-amplify/auth';
 
 const SignUp: React.FC = () => {
-  const [form, setForm] = useState({ username: '', email: '', password: '', confirmPassword: '', agree: false });
+  const [form, setForm] = useState({ email: '', password: '', confirmPassword: '', agree: false, roles: ['buyer'] });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -19,16 +19,24 @@ const SignUp: React.FC = () => {
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
+  const handleRoleChange = (role: string) => {
+    setForm((prev) => {
+      if (prev.roles.includes(role)) {
+        // Remove role
+        const newRoles = prev.roles.filter((r) => r !== role);
+        return { ...prev, roles: newRoles.length ? newRoles : ['buyer'] };
+      } else {
+        // Add role
+        return { ...prev, roles: [...prev.roles, role] };
+      }
+    });
+  };
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setPending(true);
     setError(null);
     setSuccess(null);
-    if (!USERNAME_REGEX.test(form.username)) {
-      setError('Username must be at least 2 characters and can only contain letters, numbers, ".", "-", and "_".');
-      setPending(false);
-      return;
-    }
     if (form.password !== form.confirmPassword) {
       setError('Passwords do not match');
       setPending(false);
@@ -41,16 +49,17 @@ const SignUp: React.FC = () => {
     }
     try {
       await signUp({
-        username: form.username,
+        username: form.email,
         password: form.password,
         options: {
           userAttributes: {
             email: form.email,
+            'custom:roles': form.roles.join(','),
           },
         },
       });
       setSuccess('Registration successful! Please check your email to verify your account.');
-      setForm({ username: '', email: '', password: '', confirmPassword: '', agree: false });
+      setForm({ email: '', password: '', confirmPassword: '', agree: false, roles: ['buyer'] });
     } catch (err: any) {
       setError(err.message || 'Sign up failed');
     } finally {
@@ -71,19 +80,27 @@ const SignUp: React.FC = () => {
           </div>
           <form onSubmit={handleSignUp} className="space-y-6">
             <div>
-              <label htmlFor="username" className="block text-sm mb-1">Username</label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                placeholder="Enter your username"
-                className="w-full px-4 py-3 rounded bg-[#181818] border border-[#333] focus:border-primary focus:outline-none text-base"
-                value={form.username}
-                onChange={handleChange}
-                disabled={pending}
-                required
-              />
+              <label className="block text-sm mb-1">Select your role(s)</label>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={form.roles.includes('buyer')}
+                    onChange={() => handleRoleChange('buyer')}
+                    disabled={pending}
+                  />
+                  Buyer (Forward)
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={form.roles.includes('seller')}
+                    onChange={() => handleRoleChange('seller')}
+                    disabled={pending}
+                  />
+                  Seller (Midfielder)
+                </label>
+              </div>
             </div>
             <div>
               <label htmlFor="email" className="block text-sm mb-1">Email</label>

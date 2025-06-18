@@ -21,6 +21,7 @@ export interface UserDocuments extends mongoose.Document {
   participants: mongoose.Types.ObjectId[];
   image: string;
   isValidPassword(password: string): Promise<boolean>;
+  roles: string[];
 }
 
 const userSchema = new mongoose.Schema<UserDocuments>({
@@ -60,6 +61,10 @@ const userSchema = new mongoose.Schema<UserDocuments>({
   },
   image: {
     type: String,
+  },
+  roles: {
+    type: [String],
+    default: ['buyer'],
   },
 });
 

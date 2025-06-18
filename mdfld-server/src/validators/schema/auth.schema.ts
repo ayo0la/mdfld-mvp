@@ -24,7 +24,7 @@ const register = z.object({
     .email({ message: 'Invalid email address' })
     .toLowerCase(),
   password: z.string({ required_error: 'Password is required' }).min(1, { message: 'Password cannot be empty' }),
-  role: z.string({ required_error: 'Role is required' }),
+  roles: z.string({ required_error: 'Roles are required' }),
 });
 
 const forgetPassword = z.object({
