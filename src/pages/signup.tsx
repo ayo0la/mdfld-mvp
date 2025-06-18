@@ -59,10 +59,10 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <>
-      <Head>
-        <title>Sign Up</title>
-      </Head>
+  <>
+    <Head>
+      <title>Sign Up</title>
+    </Head>
       <div className="min-h-screen bg-[#111] text-white font-gordita flex flex-col items-center justify-center">
         <div className="w-full max-w-md bg-[#222] rounded-xl shadow-lg p-8">
           <div className="flex justify-center mb-8">
@@ -187,9 +187,9 @@ const SignUp: React.FC = () => {
             Continue with Google
           </button>
         </div>
-      </div>
-    </>
-  );
+    </div>
+  </>
+);
 };
 
 export default SignUp; 

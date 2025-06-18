@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { authRouter } from './routers/auth.router';
 import { chatRouter } from './routers/chat.router';
+import paymentRouter from './routers/payment.router';
 
 export const appRouter = Router();
 
@@ -10,6 +11,7 @@ appRouter.get('/ping', (req, res) => {
 
 appRouter.use('/auth', authRouter);
 appRouter.use('/chat', chatRouter);
+appRouter.use('/api/payments', paymentRouter);
 
 appRouter.get('/products', (req, res) => {
   res.json([

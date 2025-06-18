@@ -3,6 +3,51 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProductCard from '../components/ui/custom/ProductCard';
+import Link from 'next/link';
+
+const topSellers = [
+  {
+    name: 'THE BOOT CHAMBER',
+    avatar: '/images/thebootchamber-avatar.png',
+    slug: 'thebootchamber',
+  },
+  {
+    name: 'Liam Carter',
+    avatar: '/images/placeholder-avatar.png',
+    slug: 'liam-carter',
+  },
+  {
+    name: 'Jane Smith',
+    avatar: '/images/placeholder-avatar.png',
+    slug: 'jane-smith',
+  },
+  {
+    name: 'Noah Johnson',
+    avatar: '/images/placeholder-avatar.png',
+    slug: 'noah-johnson',
+  },
+  {
+    name: 'Olivia Williams',
+    avatar: '/images/placeholder-avatar.png',
+    slug: 'olivia-williams',
+  },
+  {
+    name: 'Elijah Brown',
+    avatar: '/images/placeholder-avatar.png',
+    slug: 'elijah-brown',
+  },
+  {
+    name: 'Emma Jones',
+    avatar: '/images/placeholder-avatar.png',
+    slug: 'emma-jones',
+  },
+  {
+    name: 'James Garcia',
+    avatar: '/images/placeholder-avatar.png',
+    slug: 'james-garcia',
+  },
+  // If you want to swap in more, add here
+];
 
 const Home: React.FC = () => {
   const heroImages = [
@@ -78,14 +123,14 @@ const Home: React.FC = () => {
               <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">GAME CHANGERS</h2>
               <p className="text-base md:text-lg text-center text-gray-400 mb-8">Best Of New Arrivals</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <ProductCard imageUrl="/images/product1.png" name="Adidas Football (ID7793)" price="$23.75" />
-                <ProductCard imageUrl="/images/product2.png" name="Adidas Unisex TF (ID3784)" price="$24.00" />
-                <ProductCard imageUrl="/images/product3.png" name="Adidas Unisex JSY (ID2996)" price="$27.65" />
-                <ProductCard imageUrl="/images/product4.png" name="Adidas Football (ID2457)" price="$43.00" />
-                <ProductCard imageUrl="/images/product5.png" name="Adidas Unisex FXG (ID654)" price="$17.90" />
-                <ProductCard imageUrl="/images/product6.png" name="Adidas M PL 22 Reg T (ID452)" price="$15.60" />
-                <ProductCard imageUrl="/images/product7.png" name="Adidas Unisex FXG (ID654)" price="$38.50" />
-                <ProductCard imageUrl="/images/product8.png" name="Adidas Men Q4 BKJT (ID542)" price="$20.70" />
+                <ProductCard id={1} imageUrl="/images/product1.png" name="Adidas Football (ID7793)" price="$23.75" />
+                <ProductCard id={2} imageUrl="/images/product2.png" name="Adidas Unisex TF (ID3784)" price="$24.00" />
+                <ProductCard id={3} imageUrl="/images/product3.png" name="Adidas Unisex JSY (ID2996)" price="$27.65" />
+                <ProductCard id={4} imageUrl="/images/product4.png" name="Adidas Football (ID2457)" price="$43.00" />
+                <ProductCard id={5} imageUrl="/images/product5.png" name="Adidas Unisex FXG (ID654)" price="$17.90" />
+                <ProductCard id={6} imageUrl="/images/product6.png" name="Adidas M PL 22 Reg T (ID452)" price="$15.60" />
+                <ProductCard id={7} imageUrl="/images/product7.png" name="Adidas Unisex FXG (ID654)" price="$38.50" />
+                <ProductCard id={8} imageUrl="/images/product8.png" name="Adidas Men Q4 BKJT (ID542)" price="$20.70" />
               </div>
               <div className="text-center mt-12">
                 <button className="bg-primary text-gray-900 py-3 px-8 rounded-full font-bold hover:bg-opacity-90 transition-colors" onClick={() => window.location.href='/shop'}>
@@ -118,10 +163,10 @@ const Home: React.FC = () => {
               <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">THE LINEUP</h2>
               <p className="text-base md:text-lg text-center text-gray-400 mb-8">Explore everything football - organized for your game.</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <ProductCard imageUrl="/images/categories-boots-img.png" name="Shop Shoes" price="" />
-                <ProductCard imageUrl="/images/categories-jerseys-img.png" name="Shop Kits" price="" />
-                <ProductCard imageUrl="/images/categories-balls-img.png" name="Shop Footballs" price="" />
-                <ProductCard imageUrl="/images/categories-cards-img.png" name="Shop Cards" price="" />
+                <ProductCard id={101} imageUrl="/images/categories-boots-img.png" name="Shop Shoes" price="" />
+                <ProductCard id={102} imageUrl="/images/categories-jerseys-img.png" name="Shop Kits" price="" />
+                <ProductCard id={103} imageUrl="/images/categories-balls-img.png" name="Shop Footballs" price="" />
+                <ProductCard id={104} imageUrl="/images/categories-cards-img.png" name="Shop Cards" price="" />
               </div>
             </div>
           </section>
@@ -132,12 +177,13 @@ const Home: React.FC = () => {
               <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">TOP SELLERS</h2>
               <p className="text-base md:text-lg text-center text-gray-400 mb-8">From legendary boots to must-have kits and beyond.</p>
               <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8">
-                {/* Placeholder Seller Avatars */}
-                {[...Array(8)].map((_, i) => (
-                  <div key={i} className="flex items-center space-x-2 bg-gray-700 p-2 sm:p-3 rounded-full">
-                    <img src="/images/placeholder-avatar.png" alt="Seller" className="w-8 h-8 sm:w-10 sm:h-10 rounded-full" />
-                    <span className="text-xs sm:text-sm">Seller Name {i + 1}</span>
-                  </div>
+                {topSellers.slice(0, 8).map((seller, i) => (
+                  <Link key={i} href={`/seller/${seller.slug}`} legacyBehavior>
+                    <a className="flex items-center space-x-2 bg-gray-700 p-2 sm:p-3 rounded-full hover:bg-primary/20 transition-colors">
+                      <img src={seller.avatar || '/images/placeholder-avatar.png'} alt={seller.name} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full" />
+                      <span className="text-xs sm:text-sm font-semibold">{seller.name}</span>
+                    </a>
+                  </Link>
                 ))}
               </div>
             </div>

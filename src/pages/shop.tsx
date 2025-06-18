@@ -13,16 +13,16 @@ const Shop: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <Head>
-        <title>Shop</title>
-      </Head>
-      <div className="min-h-screen bg-dark-2 text-white font-gordita">
+  <>
+    <Head>
+      <title>Shop</title>
+    </Head>
+    <div className="min-h-screen bg-dark-2 text-white font-gordita">
         <ShopPageContent products={products} />
-        <Footer />
-      </div>
-    </>
-  );
+      <Footer />
+    </div>
+  </>
+);
 };
 
 export default Shop; 

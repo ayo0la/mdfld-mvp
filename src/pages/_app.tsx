@@ -4,16 +4,19 @@ import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import '../lib/amplify';
 import { AuthProvider } from '../hooks/useAuth';
+import { CartProvider } from '../hooks/useCart';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isHomePage = router.pathname === '/';
 
   return (
-    <AuthProvider>
-      {!isHomePage && <Header />}
-      <Component {...pageProps} />
-    </AuthProvider>
+    <CartProvider>
+      <AuthProvider>
+        {!isHomePage && <Header />}
+        <Component {...pageProps} />
+      </AuthProvider>
+    </CartProvider>
   );
 }
 

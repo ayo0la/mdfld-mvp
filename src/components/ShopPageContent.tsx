@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ProductCard from './ui/custom/ProductCard';
 
 interface Product {
-  id?: number;
+  id: number;
   imageUrl?: string;
   name: string;
   price: string | number;
@@ -12,98 +12,25 @@ interface ShopPageContentProps {
   products?: Product[];
 }
 
-const allProducts = [
-  {
-    imageUrl: '/images/nike_phantom_elite.png', // Placeholder image path
-    name: 'Nike Phantom Elite',
-    price: '$275',
-  },
-  {
-    imageUrl: '/images/adidas_x_speedflow.png', // Placeholder image path
-    name: 'Adidas X Speedflow',
-    price: '$225',
-  },
-  {
-    imageUrl: '/images/puma_ultra.png', // Placeholder image path
-    name: 'Puma Ultra',
-    price: '$199',
-  },
-  {
-    imageUrl: '/images/nike_tiempo_legend.png', // Placeholder image path
-    name: 'Nike Tiempo Legend',
-    price: '$229',
-  },
-  {
-    imageUrl: '/images/adidas_predator.png', // Placeholder image path
-    name: 'Adidas Predator',
-    price: '$279',
-  },
-  {
-    imageUrl: '/images/puma_future.png', // Placeholder image path
-    name: 'Puma Future',
-    price: '$189',
-  },
-  // Duplicate for more products to simulate infinite scroll
-  {
-    imageUrl: '/images/nike_phantom_elite.png',
-    name: 'Nike Phantom Elite 2',
-    price: '$280',
-  },
-  {
-    imageUrl: '/images/adidas_x_speedflow.png',
-    name: 'Adidas X Speedflow 2',
-    price: '$230',
-  },
-  {
-    imageUrl: '/images/puma_ultra.png',
-    name: 'Puma Ultra 2',
-    price: '$205',
-  },
-  {
-    imageUrl: '/images/nike_tiempo_legend.png',
-    name: 'Nike Tiempo Legend 2',
-    price: '$235',
-  },
-  {
-    imageUrl: '/images/adidas_predator.png',
-    name: 'Adidas Predator 2',
-    price: '$285',
-  },
-  {
-    imageUrl: '/images/puma_future.png',
-    name: 'Puma Future 2',
-    price: '$195',
-  },
-  {
-    imageUrl: '/images/nike_phantom_elite.png',
-    name: 'Nike Phantom Elite 3',
-    price: '$290',
-  },
-  {
-    imageUrl: '/images/adidas_x_speedflow.png',
-    name: 'Adidas X Speedflow 3',
-    price: '$240',
-  },
-  {
-    imageUrl: '/images/puma_ultra.png',
-    name: 'Puma Ultra 3',
-    price: '$210',
-  },
-  {
-    imageUrl: '/images/nike_tiempo_legend.png',
-    name: 'Nike Tiempo Legend 3',
-    price: '$245',
-  },
-  {
-    imageUrl: '/images/adidas_predator.png',
-    name: 'Adidas Predator 3',
-    price: '$295',
-  },
-  {
-    imageUrl: '/images/puma_future.png',
-    name: 'Puma Future 3',
-    price: '$200',
-  },
+const allProducts: Product[] = [
+  { id: 1, imageUrl: '/images/nike_phantom_elite.png', name: 'Nike Phantom Elite', price: '$275' },
+  { id: 2, imageUrl: '/images/adidas_x_speedflow.png', name: 'Adidas X Speedflow', price: '$225' },
+  { id: 3, imageUrl: '/images/puma_ultra.png', name: 'Puma Ultra', price: '$199' },
+  { id: 4, imageUrl: '/images/nike_tiempo_legend.png', name: 'Nike Tiempo Legend', price: '$229' },
+  { id: 5, imageUrl: '/images/adidas_predator.png', name: 'Adidas Predator', price: '$279' },
+  { id: 6, imageUrl: '/images/puma_future.png', name: 'Puma Future', price: '$189' },
+  { id: 7, imageUrl: '/images/nike_phantom_elite.png', name: 'Nike Phantom Elite 2', price: '$280' },
+  { id: 8, imageUrl: '/images/adidas_x_speedflow.png', name: 'Adidas X Speedflow 2', price: '$230' },
+  { id: 9, imageUrl: '/images/puma_ultra.png', name: 'Puma Ultra 2', price: '$205' },
+  { id: 10, imageUrl: '/images/nike_tiempo_legend.png', name: 'Nike Tiempo Legend 2', price: '$235' },
+  { id: 11, imageUrl: '/images/adidas_predator.png', name: 'Adidas Predator 2', price: '$285' },
+  { id: 12, imageUrl: '/images/puma_future.png', name: 'Puma Future 2', price: '$195' },
+  { id: 13, imageUrl: '/images/nike_phantom_elite.png', name: 'Nike Phantom Elite 3', price: '$290' },
+  { id: 14, imageUrl: '/images/adidas_x_speedflow.png', name: 'Adidas X Speedflow 3', price: '$240' },
+  { id: 15, imageUrl: '/images/puma_ultra.png', name: 'Puma Ultra 3', price: '$210' },
+  { id: 16, imageUrl: '/images/nike_tiempo_legend.png', name: 'Nike Tiempo Legend 3', price: '$245' },
+  { id: 17, imageUrl: '/images/adidas_predator.png', name: 'Adidas Predator 3', price: '$295' },
+  { id: 18, imageUrl: '/images/puma_future.png', name: 'Puma Future 3', price: '$200' },
 ];
 
 const PRODUCTS_PER_LOAD = 6; // Number of products to load at once
@@ -200,7 +127,8 @@ const ShopPageContent: React.FC<ShopPageContentProps> = ({ products }) => {
       <main className="flex-1 p-4 grid grid-cols-2 lg:grid-cols-4 gap-6">
         {loadedProducts.map((product, index) => (
           <ProductCard
-            key={index}
+            key={product.id || index}
+            id={product.id}
             imageUrl={product.imageUrl || '/images/placeholder-avatar.png'}
             name={product.name}
             price={String(product.price)}

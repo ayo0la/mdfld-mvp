@@ -12,15 +12,25 @@ import { initializeSocket } from './config/socket.js';
 const app = express();
 const server = http.createServer(app);
 
-const origins: Record<string, string[]> = {
-  DEV: ['http://localhost:5173', 'http://localhost:3000'],
-  PROD: [''],
-};
-const origin = origins[process.env.NODE_ENV as string] || origins.PROD;
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://www.mdfld.co'
+];
+
 const PORT = process.env.PORT || 4000;
 
 // Middleware
-app.use(cors({ origin, credentials: true }));
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser());
 

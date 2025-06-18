@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import SearchBar from './ui/custom/SearchBar';
 import { useAuth } from '../hooks/useAuth';
+import { useCart } from '../hooks/useCart';
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useAuth();
+  const { cart } = useCart();
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <header className="bg-dark-1 text-white overflow-visible">
@@ -42,8 +45,13 @@ const Header: React.FC = () => {
           <a href="/wishlist" className="hidden md:block hover:text-primary transition-colors">
             <img src="/images/icon-heart.svg" alt="Heart Icon" className="h-5 w-5" />
           </a>
-          <a href="/cart" className="hidden md:block hover:text-primary transition-colors">
+          <a href="/cart" className="hidden md:block hover:text-primary transition-colors relative">
             <img src="/images/icon-bag.svg" alt="Bag Icon" className="h-5 w-5" />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-primary text-dark-1 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-dark-1">
+                {cartCount}
+              </span>
+            )}
           </a>
         </div>
 
@@ -66,9 +74,14 @@ const Header: React.FC = () => {
                   </Link>
                 </li>
                 <li>
-                  <a href="/cart" className="flex items-center space-x-2 py-2 px-4 hover:bg-dark-2 transition-colors rounded">
+                  <a href="/cart" className="flex items-center space-x-2 py-2 px-4 hover:bg-dark-2 transition-colors rounded relative">
                     <img src="/images/icon-bag.svg" alt="Bag Icon" className="h-5 w-5" />
                     <span>Cart</span>
+                    {cartCount > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-primary text-dark-1 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-dark-1">
+                        {cartCount}
+                      </span>
+                    )}
                   </a>
                 </li>
               </ul>
